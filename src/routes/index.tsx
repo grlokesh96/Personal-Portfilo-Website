@@ -1240,12 +1240,6 @@ function Nav({ onCmd }: { onCmd: () => void }) {
             <span>Resume</span>
           </button>
           <button
-            onClick={onCmd}
-            className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg glass text-xs text-muted-foreground hover:text-white"
-          >
-            <Command className="h-3.5 w-3.5" /> <span>⌘K</span>
-          </button>
-          <button
             className="lg:hidden p-2 rounded-lg glass"
             onClick={() => setOpen((o) => !o)}
             aria-label="menu"
