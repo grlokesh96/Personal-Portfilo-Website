@@ -7,7 +7,7 @@ import {
   AnimatePresence,
   useReducedMotion,
 } from "framer-motion";
-import { useEffect, useMemo, useRef, useState, lazy, Suspense } from "react";
+import { Component, useEffect, useMemo, useRef, useState, lazy, Suspense } from "react";
 import {
   SmoothScroll,
   CustomCursor,
@@ -18,8 +18,10 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { useHydrated } from "@tanstack/react-router";
+import { PLATFORM_NODES, type PlatformNode } from "@/components/platform-data";
 
 const HeroGlobe3D = lazy(() => import("@/components/HeroGlobe3D"));
+const PlatformScene3D = lazy(() => import("@/components/PlatformScene3D"));
 
 import { toast } from "sonner";
 
@@ -623,6 +625,7 @@ const NAV = [
   { id: "impact", label: "Impact" },
 
   { id: "pipeline", label: "Pipeline" },
+  { id: "platform", label: "Platform" },
   { id: "blog", label: "Blog" },
   { id: "contact", label: "Contact" },
 ];
@@ -2088,6 +2091,225 @@ function Achievements() {
   );
 }
 
+/* ---------------------------------------------- Platform 3D Experience --- */
+
+/* Catches runtime failures in the 3D scene without breaking the page */
+class SceneErrorBoundary extends Component<
+  { fallback: React.ReactNode; children: React.ReactNode },
+  { failed: boolean }
+> {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  componentDidCatch(error: unknown) {
+    console.warn("Platform 3D scene failed — rendering static fallback", error);
+  }
+  render() {
+    return this.state.failed ? this.props.fallback : this.props.children;
+  }
+}
+
+/* Static CSS/SVG illustration used for SSR, reduced motion, mobile and no-WebGL */
+function PlatformStaticVisual() {
+  const bars = [30, 55, 42, 70, 48];
+  const colors = ["#3B82F6", "#8B5CF6", "#06B6D4", "#8B5CF6", "#3B82F6"];
+  return (
+    <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 grid place-items-center" style={{ perspective: "1100px" }}>
+        <div
+          className="relative h-[68%] w-[76%] max-w-md"
+          style={{ transformStyle: "preserve-3d" }}
+        >
+          {[
+            "rotateX(62deg) rotateZ(8deg) translateY(-34px) translateZ(20px)",
+            "rotateX(24deg) rotateZ(-5deg) translateY(6px)",
+            "rotateX(-10deg) translateY(46px) translateZ(-30px)",
+          ].map((t, i) => (
+            <div
+              key={i}
+              className="absolute left-0 right-0 top-1/2 rounded-2xl border border-white/10 bg-[#0a0f24]/70 backdrop-blur-sm"
+              style={{
+                transform: `translateY(-50%) ${t}`,
+                height: `${38 - i * 4}%`,
+                boxShadow: "0 24px 70px -24px rgba(59,130,246,0.55)",
+                opacity: 1 - i * 0.12,
+              }}
+            >
+              <div className="flex items-center gap-1.5 px-4 pt-3">
+                <span className="h-2 w-2 rounded-full bg-red-400/70" />
+                <span className="h-2 w-2 rounded-full bg-yellow-400/70" />
+                <span className="h-2 w-2 rounded-full bg-emerald-400/70" />
+              </div>
+              <div className="flex h-full items-end gap-2 px-4 pb-4">
+                {bars.map((h, j) => (
+                  <div
+                    key={j}
+                    className="flex-1 rounded-t-sm"
+                    style={{
+                      height: `${h}%`,
+                      background: `linear-gradient(180deg, ${colors[j]}, transparent)`,
+                      boxShadow: `0 0 14px ${colors[j]}55`,
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PlatformLoading() {
+  return (
+    <div className="absolute inset-0 grid place-items-center" role="status" aria-live="polite">
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-28 w-28 animate-pulse rounded-2xl glass border border-cyber-cyan/30" />
+        <div className="flex items-center gap-2 font-mono text-xs text-cyber-cyan">
+          <span className="h-2 w-2 animate-pulse rounded-full bg-cyber-cyan" />
+          rendering control plane…
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Platform() {
+  const hydrated = useHydrated();
+  const reduce = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+  const [isLg, setIsLg] = useState(false);
+  const [webgl, setWebgl] = useState(false);
+  const [active, setActive] = useState<PlatformNode | null>(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const fn = () => setIsLg(mq.matches);
+    fn();
+    mq.addEventListener("change", fn);
+    return () => mq.removeEventListener("change", fn);
+  }, []);
+
+  useEffect(() => {
+    try {
+      const c = document.createElement("canvas");
+      setWebgl(
+        !!(window.WebGLRenderingContext && (c.getContext("webgl2") || c.getContext("webgl"))),
+      );
+    } catch {
+      setWebgl(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && setInView(true), {
+      rootMargin: "200px",
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  const can3d = hydrated && webgl && !reduce && isLg && inView;
+
+  return (
+    <section
+      ref={sectionRef}
+      id="platform"
+      className="relative py-24 md:py-32 min-h-[70vh] [content-visibility:auto] [contain-intrinsic-size:1px_850px]"
+    >
+      <div
+        className="absolute -top-20 right-0 h-96 w-96 rounded-full blur-3xl opacity-30"
+        style={{ background: "radial-gradient(circle,#8B5CF6,transparent 60%)" }}
+      />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 grid lg:grid-cols-2 gap-10 items-center">
+        <div>
+          <SectionHeading
+            eyebrow="// platform"
+            title={
+              <>
+                Interactive <HL gradient>3D platform</HL> view
+              </>
+            }
+            description="A live, clickable model of the DevSecOps platform I design and operate — EKS, GitOps and security working together in one control plane."
+          />
+          <div className="flex flex-wrap gap-2">
+            {PLATFORM_NODES.map((n) => {
+              const isActive = active?.id === n.id;
+              return (
+                <button
+                  key={n.id}
+                  type="button"
+                  onClick={() => setActive(isActive ? null : n)}
+                  aria-pressed={isActive}
+                  className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 font-mono text-[11px] transition-all ${
+                    isActive
+                      ? "border-white/20 bg-white/10 text-white"
+                      : "border-white/10 bg-white/[0.03] text-muted-foreground hover:text-white"
+                  }`}
+                >
+                  <span
+                    className="h-1.5 w-1.5 rounded-full"
+                    style={{ background: n.color, boxShadow: `0 0 8px ${n.color}` }}
+                  />
+                  {n.label}
+                </button>
+              );
+            })}
+          </div>
+          <div
+            aria-live="polite"
+            className="mt-6 min-h-[104px] rounded-2xl glass border border-white/10 p-5"
+          >
+            {active ? (
+              <div className="flex items-start gap-3">
+                <span
+                  className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full"
+                  style={{ background: active.color, boxShadow: `0 0 12px ${active.color}` }}
+                />
+                <div>
+                  <div className="font-mono text-sm font-semibold" style={{ color: active.color }}>
+                    {active.label}
+                  </div>
+                  <p className="mt-1 text-sm text-muted-foreground">{active.desc}</p>
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-cyber-cyan opacity-75 animate-ping motion-reduce:hidden" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-cyber-cyan" />
+                </span>
+                Select any service node in the 3D view — or a chip here — to inspect it.
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="relative h-[380px] sm:h-[440px] lg:h-[540px] overflow-hidden rounded-3xl glass border border-white/10">
+          {can3d ? (
+            <Suspense fallback={<PlatformLoading />}>
+              <SceneErrorBoundary fallback={<PlatformStaticVisual />}>
+                <PlatformScene3D
+                  nodes={PLATFORM_NODES}
+                  activeId={active?.id ?? null}
+                  onSelect={(n) => setActive(n)}
+                />
+              </SceneErrorBoundary>
+            </Suspense>
+          ) : (
+            <PlatformStaticVisual />
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* --------------------------------------------------------- Projects --- */
 
 function Projects() {
@@ -2936,6 +3158,7 @@ function Portfolio() {
         <Skills />
         <Certs />
         <Experience />
+        <Platform />
         <Projects />
         <Achievements />
         <Pipeline />
