@@ -1,111 +1,59 @@
-# Personal Portfolio Website
+# G R Lokesh — DevOps & DevSecOps Engineer Portfolio
 
-Interactive cloud-ops portfolio for **G R Lokesh** — Senior AWS DevOps & DevSecOps Engineer.
+A premium, interactive portfolio for a DevOps & DevSecOps Engineer: **AWS & Azure · Kubernetes · Terraform · GitOps · Cloud Security**.
 
-Built with **TanStack Start** (React 19), **Vite**, **Tailwind CSS v4**, and **Three.js / React Three Fiber**
-for the interactive 3D experiences.
+GitHub: [@grlokesh96](https://github.com/grlokesh96) · LinkedIn: [in/grlokesh96](https://www.linkedin.com/in/grlokesh96)
 
-## Highlights
+## Stack
 
-- Single-page portfolio with hero, about, skills, certifications, experience, projects, impact, CI/CD pipeline,
-  interactive **3D platform view**, blog, and contact sections.
-- Interactive 3D hero globe (DevOps tool orbit) and a clickable **3D platform control-plane** scene — lazy-loaded,
-  performance-guarded, and with graceful static fallbacks.
-- Command palette (`Ctrl/⌘ + K`), resume preview + download, AI assistant widget, smooth scrolling, custom cursor.
-- Supabase-powered resume-download analytics (optional; app runs without keys in mock mode).
+- **Framework:** [TanStack Start](https://tanstack.com/start) (React 19, file-based routing, SSR via Nitro)
+- **Build tool:** Vite 8 · **Language:** TypeScript
+- **Styling:** Tailwind CSS v4 (custom design tokens in `src/styles.css`)
+- **Animation:** framer-motion · **Smooth scroll:** Lenis
+- **3D:** three + @react-three/fiber + @react-three/drei — hero globe and interactive platform scene (lazy-loaded, WebGL-guarded, with static fallbacks)
+- **Backend:** Supabase (resume-download analytics), AI assistant via Lovable AI gateway or Google Gemini
 
-## Prerequisites
+## Sections
 
-- **Node.js** 20.19+ (or 22+)
-- **npm** 10+
+Hero (3D globe) — About & stats — Skills (grouped by discipline) — Certifications — Experience — **Interactive 3D platform view** — Selected projects — Impact metrics — DevSecOps pipeline — Blog — Contact — footer. Includes a `Ctrl/⌘+K` command palette, an interactive resume preview modal (web + PDF), a built-in AI assistant, smooth scrolling, and a custom cursor.
 
-## Run locally
+## Quick start
 
 ```bash
-# 1. Install dependencies
 npm install
-
-# 2. (Optional) Configure environment — the app runs in mock/offline mode without keys
-cp .env.example .env
-#   then fill in your Supabase / API keys (see "Environment variables" below)
-
-# 3. Start the dev server (http://localhost:3000)
 npm run dev
 ```
 
-Open http://localhost:3000.
+Open <http://localhost:3000>.
 
-## Build & preview (production)
+## Scripts
 
-```bash
-npm run build      # production build
-npm run preview    # preview the production build locally
-```
-
-A helper `build:dev` script also builds in development mode.
-
-## Lint & format
-
-```bash
-npm run lint    # ESLint
-npm run format  # Prettier (write)
-```
-
-## Available scripts
-
-| Script              | Description                               |
-| ------------------- | ----------------------------------------- |
-| `npm run dev`       | Vite dev server on port 3000              |
-| `npm run build`     | Production build                          |
-| `npm run build:dev` | Build in development mode                 |
-| `npm run preview`   | Preview the production build locally      |
-| `npm run lint`      | ESLint over `.ts`/`.tsx`                  |
-| `npm run format`    | Prettier write-format all supported files |
+| Command              | Description                              |
+| -------------------- | ---------------------------------------- |
+| `npm run dev`        | Start dev server (port `3000`)           |
+| `npm run build`      | Production build (SSR output in `.output`) |
+| `npm run preview`    | Preview the production build             |
+| `npm run lint`       | ESLint over the repo                     |
+| `npm run format`     | Prettier write                           |
 
 ## Environment variables
 
-See `.env.example` for the full list. The key ones:
+Copy `.env.example` to `.env` when you want backend features enabled. Everything else falls back to safe placeholders so the app still renders.
 
-| Variable                        | Required | Purpose                                 |
-| ------------------------------- | -------- | --------------------------------------- |
-| `VITE_SUPABASE_URL`             | optional | Supabase project URL (resume analytics) |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | optional | Supabase publishable key                |
-| `GEMINI_API_KEY`                | optional | Backend AI assistant provider key       |
-| `LOVABLE_API_KEY`               | optional | Lovable platform key                    |
+| Variable                        | Required | Purpose                                        |
+| ------------------------------- | -------- | ---------------------------------------------- |
+| `VITE_SUPABASE_URL`             | no*      | Supabase project URL (resume-download counter) |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | no*      | Supabase anon/publishable key                  |
+| `SUPABASE_URL`                  | no*      | Server-side Supabase URL                       |
+| `SUPABASE_SERVICE_ROLE_KEY`     | no       | Server-side Supabase admin key                 |
+| `GEMINI_API_KEY`                | no       | AI assistant provider (OpenAI-compatible)      |
+| `LOVABLE_API_KEY`               | no       | AI assistant via Lovable AI gateway (preferred)|
 
-If the Supabase vars are missing the app warns and falls back to mock/offline mode.
-
-## The 3D experiences
-
-- **Hero globe** — a `@react-three/fiber` globe with orbiting DevOps tool badges. Lazy-loaded with a CSS orbit
-  fallback while it hydrates, for reduced-motion users, and during SSR.
-- **Interactive 3D platform view** (`#platform` section) — a layered, floating glass-dashboard "control plane"
-  representing the EKS/GitOps/DevSecOps platform. Drag for parallax, click the labeled service nodes to inspect them.
-
-Both scenes:
-
-- load only when scrolled near them (lazy import + `IntersectionObserver`);
-- cap device-pixel-ratio for smoother frames;
-- respect `prefers-reduced-motion` (static illustration shown instead);
-- fall back to a static illustration if WebGL is unavailable or initialization fails;
-- show a simplified/static visual on mobile to keep the page fast.
-
-## Project structure
-
-```
-src/
-  routes/index.tsx                 # Main portfolio page (all sections)
-  routes/__root.tsx                # Root layout, fonts, metadata
-  components/HeroGlobe3D.tsx       # Hero 3D globe
-  components/PlatformScene3D.tsx   # Interactive 3D platform scene
-  components/platform-data.ts      # Platform service nodes data
-  components/portfolio-extras.tsx  # Blog, AI assistant, cursor, smooth scroll
-  components/ui/*                  # shadcn-style UI primitives
-  integrations/supabase/*          # Supabase client / auth / middleware
-```
+\* Without these, resume-download analytics and related live counters are disabled but the site renders normally.
 
 ## Notes
 
-- This repository is connected to [Lovable](https://lovable.dev). Do not rewrite published git history
-  (no force-pushing, rebasing, amending, or squashing already-pushed commits).
-- Keep home and feature branches in a working state — commits pushed here sync back to Lovable.
+- The 3D hero globe and platform scene are dynamically imported and shipped as separate chunks; they never block first paint (SSR renders the non-canvas fallback).
+- Respects `prefers-reduced-motion` (custom cursor, particles, and large animations are disabled or simplified).
+- No `package-lock.json` is committed to the repository.
+- Projects are connected to [Lovable](https://lovable.dev) — avoid rewriting published git history (no force-push / rebase / amend on shared branches).

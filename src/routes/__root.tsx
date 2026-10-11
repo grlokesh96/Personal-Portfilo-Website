@@ -75,27 +75,30 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "G R Lokesh — Senior DevOps & DevSecOps Engineer" },
+      {
+        title:
+          "G R Lokesh — DevOps & DevSecOps Engineer | AWS & Azure · Kubernetes · Terraform · GitOps · Cloud Security",
+      },
       {
         name: "description",
         content:
-          "Interactive cloud-ops portfolio. AWS, Kubernetes, Terraform, GitOps, DevSecOps pipelines. 8+ years shipping reliable, secure platforms.",
+          "Portfolio of G R Lokesh, DevOps & DevSecOps Engineer across AWS and Azure. Building secure, scalable, automated cloud-native infrastructure with Kubernetes, Terraform, GitOps, and modern CI/CD workflows.",
       },
       { name: "author", content: "G R Lokesh" },
       { name: "theme-color", content: "#050816" },
-      { property: "og:title", content: "G R Lokesh — Senior DevOps & DevSecOps Engineer" },
+      { property: "og:title", content: "G R Lokesh — DevOps & DevSecOps Engineer" },
       {
         property: "og:description",
         content:
-          "Interactive cloud-ops portfolio. AWS, Kubernetes, Terraform, GitOps, DevSecOps pipelines. 8+ years shipping reliable, secure platforms.",
+          "Portfolio of G R Lokesh, DevOps & DevSecOps Engineer across AWS and Azure. Building secure, scalable, automated cloud-native infrastructure with Kubernetes, Terraform, GitOps, and modern CI/CD workflows.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "G R Lokesh — Senior DevOps & DevSecOps Engineer" },
+      { name: "twitter:title", content: "G R Lokesh — DevOps & DevSecOps Engineer" },
       {
         name: "twitter:description",
         content:
-          "Interactive cloud-ops portfolio. AWS, Kubernetes, Terraform, GitOps, DevSecOps pipelines. 8+ years shipping reliable, secure platforms.",
+          "Portfolio of G R Lokesh, DevOps & DevSecOps Engineer across AWS and Azure. Building secure, scalable, automated cloud-native infrastructure with Kubernetes, Terraform, GitOps, and modern CI/CD workflows.",
       },
       {
         property: "og:image",

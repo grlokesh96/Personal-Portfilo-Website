@@ -62,7 +62,6 @@ import {
   KeyRound,
   PackageSearch,
   ScrollText,
-  ArrowUpRight,
   Menu,
   X,
   Phone,
@@ -605,11 +604,14 @@ export const Route = createFileRoute("/")({
   component: Portfolio,
   head: () => ({
     meta: [
-      { title: "G R Lokesh — Senior DevOps & DevSecOps Engineer" },
+      {
+        title:
+          "G R Lokesh — DevOps & DevSecOps Engineer | AWS & Azure · Kubernetes · Terraform · GitOps · Cloud Security",
+      },
       {
         name: "description",
         content:
-          "Interactive cloud-ops portfolio. AWS, Kubernetes, Terraform, GitOps, DevSecOps pipelines. 8+ years shipping reliable, secure platforms.",
+          "Portfolio of G R Lokesh, DevOps & DevSecOps Engineer across AWS and Azure. Building secure, scalable, automated cloud-native infrastructure with Kubernetes, Terraform, GitOps, and modern CI/CD workflows.",
       },
     ],
   }),
@@ -1386,133 +1388,134 @@ function Hero() {
   ];
 
   return (
-    <section id="hero" className="relative min-h-screen pt-32 pb-16 overflow-hidden">
-      <div className="absolute inset-0 grid-bg opacity-40" />
+    <section
+      id="hero"
+      className="relative flex min-h-screen items-center overflow-hidden pt-28 pb-16"
+    >
+      <div className="absolute inset-0 grid-bg opacity-30" />
       <div className="absolute inset-0" style={{ backgroundImage: "var(--gradient-hero)" }} />
       <Particles />
 
       {/* Floating blobs */}
       <div
-        className="absolute -top-20 -left-20 w-96 h-96 rounded-full blur-3xl opacity-40 animate-float-slow"
+        className="pointer-events-none absolute -top-24 -left-24 h-[28rem] w-[28rem] rounded-full blur-3xl opacity-30"
         style={{ background: "radial-gradient(circle,#3B82F6,transparent 60%)" }}
       />
       <div
-        className="absolute top-40 -right-20 w-96 h-96 rounded-full blur-3xl opacity-40 animate-float-slow"
-        style={{
-          background: "radial-gradient(circle,#8B5CF6,transparent 60%)",
-          animationDelay: "3s",
-        }}
+        className="pointer-events-none absolute top-1/4 -right-24 h-[28rem] w-[28rem] rounded-full blur-3xl opacity-30"
+        style={{ background: "radial-gradient(circle,#8B5CF6,transparent 60%)" }}
       />
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 grid lg:grid-cols-[1.2fr_1fr] gap-12 items-center">
+      <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 grid lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center">
         <div>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={
-              reduce
-                ? { opacity: 1, y: 0 }
-                : {
-                    opacity: 1,
-                    y: 0,
-                    boxShadow: [
-                      "0 0 0 0 rgba(0,229,255,0.0), 0 0 12px rgba(0,229,255,0.25)",
-                      "0 0 0 6px rgba(0,229,255,0.0), 0 0 24px rgba(0,229,255,0.55)",
-                      "0 0 0 0 rgba(0,229,255,0.0), 0 0 12px rgba(0,229,255,0.25)",
-                    ],
-                  }
-            }
-            transition={
-              reduce
-                ? { duration: 0.3 }
-                : {
-                    opacity: { duration: 0.5 },
-                    y: { duration: 0.5 },
-                    boxShadow: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
-                  }
-            }
-            whileHover={reduce ? undefined : { scale: 1.04 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass text-xs font-mono min-h-[26px] border border-cyber-cyan/40 bg-cyber-cyan/5"
+            initial={{ opacity: 0, y: reduce ? 0 : 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="inline-flex items-center gap-2 rounded-full border border-cyber-cyan/30 bg-cyber-cyan/5 px-3 py-1 font-mono text-xs"
           >
             <span className="relative flex h-2 w-2">
-              <span className="absolute inset-0 rounded-full bg-cyber-cyan animate-ping opacity-75 motion-reduce:hidden" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyber-cyan" />
+              <span className="absolute inset-0 h-full w-full animate-ping rounded-full bg-cyber-cyan opacity-75 motion-reduce:hidden" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-cyber-cyan" />
             </span>
-            <span className="font-semibold tracking-wide uppercase text-gradient">
-              Open to New Opportunities
+            <span className="font-semibold uppercase tracking-widest text-cyber-cyan">
+              Open to new opportunities
             </span>
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: reduce ? 0 : 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="mt-6 font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight text-balance"
+            transition={{ delay: 0.1, duration: 0.6, ease: "easeOut" }}
+            className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight text-balance sm:text-5xl md:text-6xl xl:text-7xl"
           >
-            Hi, I'm <span className="text-gradient">&nbsp;G R Lokesh</span>
+            DevOps &amp; <span className="text-gradient">DevSecOps</span> Engineer
           </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
+          <motion.div
+            initial={{ opacity: 0, y: reduce ? 0 : 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="mt-5 text-base sm:text-lg md:text-xl leading-relaxed text-muted-foreground max-w-xl text-pretty"
+            transition={{ delay: 0.18, duration: 0.5, ease: "easeOut" }}
+            className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs uppercase tracking-wider sm:text-sm"
           >
-            <HL gradient>AWS</HL> <HL accent>DevOps, DevSecOps, and Platform</HL> Engineer with{" "}
-            <HL gradient>6+ years</HL> of experience designing, automating, and operating{" "}
-            <HL>production-grade cloud infrastructure</HL>. Specialized in{" "}
-            <HL gradient>Amazon Web Services (AWS)</HL>, <HL gradient>Kubernetes (Amazon EKS)</HL>,{" "}
-            <HL gradient>Terraform</HL>, <HL gradient>GitOps (Argo CD)</HL>,{" "}
-            <HL>CI/CD automation</HL>, <HL>Infrastructure as Code</HL>, <HL>container security</HL>,{" "}
-            <HL>observability</HL>, and <HL>cloud-native platform engineering</HL>. Passionate about
-            building <HL gradient>secure, resilient, scalable, and highly available</HL> platforms
-            that enable organizations to deliver applications faster, more reliably, and at scale.
+            {["AWS & Azure", "Kubernetes", "Terraform", "GitOps", "Cloud Security"].map(
+              (item, i) => (
+                <span key={item} className="inline-flex items-center gap-3">
+                  {i > 0 && (
+                    <span aria-hidden="true" className="h-1 w-1 rounded-full bg-cyber-purple/70" />
+                  )}
+                  <span className={i === 0 ? "text-slate-200" : "text-slate-400"}>{item}</span>
+                </span>
+              ),
+            )}
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: reduce ? 0 : 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.26, duration: 0.5, ease: "easeOut" }}
+            className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg"
+          >
+            I build secure, scalable, and automated cloud-native infrastructure using DevSecOps
+            practices, Infrastructure as Code, Kubernetes, and modern CI/CD workflows.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="mt-6 text-sm sm:text-base md:text-lg font-mono truncate"
+            className="mt-6 font-mono text-sm text-slate-300 sm:text-base"
           >
-            <span className="text-muted-foreground">$ </span>
-            <TypingText />
+            <span className="text-cyber-cyan">$</span> <TypingText />
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: reduce ? 0 : 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.5, duration: 0.5, ease: "easeOut" }}
             className="mt-8 flex flex-wrap items-center gap-3"
           >
-            <MagneticButton href="#contact" variant="primary">
-              <Sparkles className="h-4 w-4" /> Hire me
-            </MagneticButton>
-            <MagneticButton href="#projects" variant="outline">
-              <Rocket className="h-4 w-4" /> View projects
+            <MagneticButton href="#projects" variant="primary">
+              <Rocket className="h-4 w-4" /> Explore projects
             </MagneticButton>
             <MagneticButton
               variant="outline"
               onClick={() =>
                 window.dispatchEvent(
-                  new CustomEvent("open-resume-preview", { detail: { source: "hero" } }),
+                  new CustomEvent("open-resume-preview", {
+                    detail: { source: "hero", mode: "web" },
+                  }),
                 )
               }
             >
-              <Download className="h-4 w-4" /> Download resume
+              <Sparkles className="h-4 w-4" /> View resume
+            </MagneticButton>
+            <MagneticButton
+              variant="ghost"
+              onClick={() =>
+                window.dispatchEvent(
+                  new CustomEvent("open-resume-preview", {
+                    detail: { source: "hero", mode: "pdf" },
+                  }),
+                )
+              }
+            >
+              <Download className="h-4 w-4" /> Download PDF
             </MagneticButton>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-3 text-muted-foreground"
+            transition={{ delay: 0.65 }}
+            className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-3 text-muted-foreground"
           >
             <a
               href="https://github.com/grlokesh96"
               target="_blank"
               rel="noreferrer"
-              className="shrink-0 hover:text-white transition-colors"
+              aria-label="GitHub profile of G R Lokesh"
+              className="shrink-0 rounded-lg p-1 transition-colors hover:text-white"
             >
               <Github className="h-5 w-5" />
             </a>
@@ -1520,18 +1523,20 @@ function Hero() {
               href="https://www.linkedin.com/in/grlokesh96"
               target="_blank"
               rel="noreferrer"
-              className="shrink-0 hover:text-white transition-colors"
+              aria-label="LinkedIn profile of G R Lokesh"
+              className="shrink-0 rounded-lg p-1 transition-colors hover:text-white"
             >
               <Linkedin className="h-5 w-5" />
             </a>
             <a
               href="mailto:grlokesh96@gmail.com"
-              className="shrink-0 hover:text-white transition-colors"
+              aria-label="Email G R Lokesh"
+              className="shrink-0 rounded-lg p-1 transition-colors hover:text-white"
             >
               <Mail className="h-5 w-5" />
             </a>
             <div className="hidden sm:block h-4 w-px bg-white/10 shrink-0" />
-            <span className="text-xs font-mono truncate">Hyderabad · Open to roles</span>
+            <span className="truncate font-mono text-xs">Hyderabad · Open to roles</span>
           </motion.div>
         </div>
 
@@ -1589,10 +1594,10 @@ function About() {
           eyebrow="// about"
           title={
             <>
-              Engineering platforms that <HL gradient>don't wake me up</HL>
+              Infrastructure as a product — <HL gradient>secure by design</HL>
             </>
           }
-          description="Results-driven AWS DevOps Engineer with 6+ years architecting cloud-native platforms, Kubernetes infrastructure, GitOps workflows, and DevSecOps pipelines across production environments."
+          description="DevOps & DevSecOps Engineer with 6+ years designing, automating, and operating cloud-native platforms — Kubernetes, Terraform, GitOps, and CI/CD at production scale."
         />
 
         <div className="grid lg:grid-cols-3 gap-6">
@@ -1689,10 +1694,10 @@ function Skills() {
           eyebrow="// stack"
           title={
             <>
-              Skills <HL gradient>dashboard</HL>
+              Skills, <HL gradient>organised</HL>
             </>
           }
-          description="Live-view of the tools I ship with. Hover for context, click a category to drill in."
+          description="The tools I reach for every day, grouped by discipline."
         />
 
         <div className="grid lg:grid-cols-[280px_1fr] gap-6 items-start">
@@ -1722,7 +1727,7 @@ function Skills() {
             })}
           </div>
 
-          <div className="glass rounded-2xl p-6 self-start w-full">
+          <div className="glass rounded-2xl p-6 self-start w-full" key={cat.name}>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <span
@@ -1734,43 +1739,24 @@ function Skills() {
                 <div>
                   <div className="font-display text-xl font-semibold">{cat.name}</div>
                   <div className="text-xs text-muted-foreground font-mono">
-                    {cat.skills.length} tools · production
+                    {cat.skills.length} tools · used in production
                   </div>
                 </div>
               </div>
-              <div className="hidden md:flex items-center gap-2 text-xs font-mono text-muted-foreground">
-                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" /> healthy
-              </div>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="flex flex-wrap gap-2.5">
               {cat.skills.map((s, i) => (
-                <motion.div
+                <motion.span
                   key={s.name}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  className="group relative p-4 rounded-xl border border-white/10 bg-white/[0.02] hover-glow overflow-hidden"
+                  transition={{ delay: i * 0.04 }}
+                  className="group inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 text-sm text-slate-200 transition-colors hover:border-white/25 hover:text-white"
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="font-medium">{s.name}</div>
-                    <div className="text-xs font-mono text-muted-foreground">{s.years}y</div>
-                  </div>
-                  <div className="mt-3 h-1.5 rounded-full bg-white/5 overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${s.level}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1, ease: "easeOut" }}
-                      className="h-full rounded-full"
-                      style={{ background: `linear-gradient(90deg, ${cat.color}, #06B6D4)` }}
-                    />
-                  </div>
-                  <div className="mt-2 flex justify-between text-xs font-mono">
-                    <span className="text-muted-foreground">proficiency</span>
-                    <span style={{ color: cat.color }}>{s.level}%</span>
-                  </div>
-                </motion.div>
+                  <span className="h-1.5 w-1.5 rounded-full" style={{ background: cat.color }} />
+                  {s.name}
+                </motion.span>
               ))}
             </div>
           </div>
@@ -1815,9 +1801,6 @@ function Certs() {
                 <div className="mt-1 text-xs text-muted-foreground">{c.issuer}</div>
                 <div className="mt-4 flex items-center justify-between">
                   <span className="text-[11px] font-mono text-cyber-cyan">ID: {c.id}</span>
-                  <button className="text-xs inline-flex items-center gap-1 text-white/80 hover:text-white">
-                    Verify <ExternalLink className="h-3 w-3" />
-                  </button>
                 </div>
               </div>
             </motion.div>
@@ -2374,17 +2357,20 @@ function Projects() {
                     ))}
                   </div>
 
-                  <div className="mt-auto pt-6 flex items-center justify-between">
-                    <div className="text-sm">
-                      <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
-                        outcome
-                      </div>
-                      <div className="font-medium text-cyber-cyan">{p.outcome}</div>
+                  <div className="mt-auto pt-6">
+                    <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-2">
+                      outcome
                     </div>
-                    <button className="inline-flex items-center gap-1 text-sm text-white/80 hover:text-white group/link">
-                      Read{" "}
-                      <ArrowUpRight className="h-4 w-4 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
-                    </button>
+                    <div className="flex flex-wrap gap-2">
+                      {p.outcome.split("·").map((metric) => (
+                        <span
+                          key={metric}
+                          className="rounded-lg border border-cyber-cyan/25 bg-cyber-cyan/5 px-2.5 py-1 font-mono text-[11px] text-cyber-cyan"
+                        >
+                          {metric.trim()}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </motion.article>
@@ -2682,10 +2668,22 @@ function Footer() {
             © {new Date().getFullYear()} · Built with care & Kubernetes
           </div>
           <div className="flex items-center gap-4 text-muted-foreground">
-            <a href="#" className="hover:text-white">
+            <a
+              href="https://github.com/grlokesh96"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub profile of G R Lokesh"
+              className="hover:text-white transition-colors"
+            >
               <Github className="h-4 w-4" />
             </a>
-            <a href="#" className="hover:text-white">
+            <a
+              href="https://www.linkedin.com/in/grlokesh96"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn profile of G R Lokesh"
+              className="hover:text-white transition-colors"
+            >
               <Linkedin className="h-4 w-4" />
             </a>
             <a href="#hero" className="hover:text-white text-xs font-mono">
